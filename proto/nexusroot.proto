@@ -1,1 +1,53 @@
+syntax = "proto3";
+package nexusroot;
 
+message Request {
+  oneof payload {
+    StatusRequest status = 1;
+    WhitelistRequest whitelist = 2;
+    AuthRequest auth = 3;
+  }
+}
+message Response {
+  bool success = 1;
+  oneof payload {
+    StatusResponse status = 2;
+    WhitelistResponse whitelist = 3;
+    AuthResponse auth = 4;
+    LogEntry log = 5;
+  }
+}
+message StatusRequest {}
+message StatusResponse {
+  bool daemon_alive = 1;
+  string su_version = 2;
+  string su_path = 3;
+  string se_context = 4;
+}
+message WhitelistRequest {
+  enum Action { LIST = 0; ADD = 1; REMOVE = 2; }
+  Action action = 1;
+  repeated WhitelistItem items = 2;
+}
+message WhitelistResponse {
+  repeated WhitelistItem items = 1;
+}
+message WhitelistItem {
+  int32 uid = 1;
+  string package_name = 2;
+  bool allowed = 3;
+}
+message AuthRequest {
+  int32 pid = 1;
+  int32 uid = 2;
+  repeated string capabilities = 3;
+}
+message AuthResponse {
+  bool granted = 1;
+  string message = 2;
+}
+message LogEntry {
+  int64 timestamp = 1;
+  string tag = 2;
+  string message = 3;
+}
