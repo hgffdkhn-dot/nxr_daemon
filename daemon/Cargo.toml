@@ -1,0 +1,13 @@
+[package]
+name = "nexusrootd"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+tokio = { version = "1", features = ["full"] }
+prost = "0.12"
+bytes = "1"
+libc = "0.2"
+socket2 = { version = "0.5", features = ["all"] }
+[build-dependencies]
+prost-build = "0.12"
